@@ -24,7 +24,7 @@ const ProductCard : React.FC<IProductItem> = (props) => {
 
     const handleAddProductToBasket = (event: React.MouseEvent) => {
         event.stopPropagation();
-        dispatch(addToBasket({productId: id, count: 1}));
+        dispatch(addToBasket({productId: Number(id), count: 1}));
     };
 
     return (
@@ -62,7 +62,7 @@ const ProductCard : React.FC<IProductItem> = (props) => {
                     <Meta
                         title={name}
                         description={
-                            <Title level={5} type="success">{price.toFixed(2)} грн</Title>
+                            <Title level={5} type="success">{Number(price).toFixed(2)} грн</Title>
                         }
                     />
                 </Card>

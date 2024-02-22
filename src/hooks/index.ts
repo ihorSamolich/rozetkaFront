@@ -1,4 +1,5 @@
-import {useAppDispatch, useAppSelector} from 'hooks/reduxHooks';
-import {useNotification} from 'hooks/notificationHook';
+import { useNotification } from './notification';
+import { useAppDispatch, useAppSelector } from './redux';
+
 
 export { useNotification, useAppDispatch, useAppSelector };
