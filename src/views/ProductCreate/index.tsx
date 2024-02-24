@@ -180,7 +180,7 @@ const ProductCreate : React.FC = () => {
                             multiple
                             showUploadList={{showPreviewIcon: false}}
                             beforeUpload={() => false}
-                            accept="image/*"
+                            accept="image/jpeg, image/png, image/gif, image/webp"
                         >
                             <Button type="primary" shape="round" icon={<DownloadOutlined/>}/>
                         </Upload>

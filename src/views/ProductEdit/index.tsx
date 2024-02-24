@@ -265,7 +265,7 @@ const ProductEdit : React.FC = () => {
                                 <Upload
                                     showUploadList={{showPreviewIcon: false}}
                                     beforeUpload={() => false}
-                                    accept="image/*"
+                                    accept="image/jpeg, image/png, image/gif, image/webp"
                                     listType="picture-card"
                                     fileList={fileList}
                                     onChange={handleChange}

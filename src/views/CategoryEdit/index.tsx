@@ -136,7 +136,7 @@ const CategoryEdit : React.FC = () => {
                                 showUploadList={{showPreviewIcon: false}}
                                 onChange={handlePreview}
                                 beforeUpload={() => false}
-                                accept="image/*"
+                                accept="image/jpeg, image/png, image/gif, image/webp"
                                 listType="picture"
                                 maxCount={1}
                             >
