@@ -58,6 +58,11 @@ const ProductsAll : React.FC= () => {
                 searchParams.delete(key);
             }
         }
+
+        if (params.page===1){
+            searchParams.delete('page');
+        }
+
         setSearchParams(searchParams);
     };
 
