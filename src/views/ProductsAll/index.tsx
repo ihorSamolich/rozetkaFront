@@ -46,6 +46,8 @@ const ProductsAll : React.FC= () => {
             setFormParams({categoryId: 0, price: undefined, quantity: undefined, query: undefined});
         }
         form.setFieldValue('price', [0,0]);
+        form.setFieldValue('query', '');
+        form.setFieldValue('categoryId', 0);
         form.setFieldValue('quantity', [0,0]);
 
     };
@@ -121,6 +123,8 @@ const ProductsAll : React.FC= () => {
                             initialValues={{
                                 price: [Number(searchParams.get('priceMin')), Number(searchParams.get('priceMax'))] || [0,0],
                                 quantity: [Number(searchParams.get('quantityMin')), Number(searchParams.get('quantityMax'))] || [0,0],
+                                query: searchParams.get('query') || '',
+                                categoryId: Number(searchParams.get('categoryId')) || 0,
                             }}
                         >
                             <Space direction="vertical">
