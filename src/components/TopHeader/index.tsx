@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {PRIMARY_BLUE_COLOR} from 'utils/constants/index.ts';
 import {Avatar, Button, Switch} from 'antd';
-import {MenuFoldOutlined, MenuUnfoldOutlined,UserOutlined, PoweroffOutlined} from '@ant-design/icons';
+import {MenuFoldOutlined, MenuUnfoldOutlined,UserOutlined,SettingOutlined, PoweroffOutlined} from '@ant-design/icons';
 import {Header} from 'antd/es/layout/layout';
 import {ITopHeader} from 'interfaces/design';
 import {Link} from 'react-router-dom';
@@ -9,6 +9,7 @@ import {useAppDispatch, useAppSelector} from 'hooks/redux';
 import ButtonGroup from 'antd/es/button/button-group';
 import {logout} from 'store/accounts/accounts.slice.ts';
 import {APP_ENV} from 'env/index.ts';
+import {Role} from 'utils/enums';
 
 
 const TopHeader: React.FC<ITopHeader> = (props) => {
@@ -90,6 +91,18 @@ const TopHeader: React.FC<ITopHeader> = (props) => {
                     </Button>
                 </Link>
             )}
+
+
+            {
+                user?.role === Role.ADMIN && (
+                    <Link to="/admin">
+                        <Button type="primary" size={'large'} icon={<SettingOutlined />}>
+                            Admin Panel
+                        </Button>
+                    </Link>
+
+                )
+            }
 
             <Switch
                 style={{marginRight: 24}}

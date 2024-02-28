@@ -22,6 +22,8 @@ import {ReactQueryDevtools} from 'react-query/devtools';
 import {isTokenActive} from 'utils/storage/isTokenActive.ts';
 import {getLocalStorage} from 'utils/storage/localStorageUtils.ts';
 import ProductsAll from 'views/ProductsAll';
+import AdminPanel from 'views/AdminPanel';
+import AdminAuth from 'components/AdminAuth';
 
 const queryClient = new QueryClient();
 
@@ -53,20 +55,37 @@ const App : React.FC = () => {
                         <Route path="categories/">
                             <Route index element={<CategoriesList/>}/>
                             <Route path="?page=:pageNumber" element={<CategoriesList/>}/>
-                            <Route path="create" element={<CategoryCreate/>}/>
-                            <Route path="edit/:id" element={<CategoryEdit/>}/>
                             <Route path=":categoryId/products" element={<ProductsList/>}/>
                         </Route>
 
-                        <Route path="product/">
+                        <Route path="products/">
                             <Route index element={<ProductsAll/>}/>
                             <Route path=":productId" element={<ProductDetail/>}/>
-                            <Route path="create" element={<ProductCreate/>}/>
-                            <Route path="edit/:productId" element={<ProductEdit/>}/>
                         </Route>
 
                         <Route path="checkout/">
                             <Route path="order" element={<CreateOrder/>}/>
+                        </Route>
+
+                        // ADMIN PANEL ADD CHECK ***
+
+                        <Route
+                            element={<AdminAuth/>}
+                        >
+                            <Route path="admin/">
+                                <Route index element={<AdminPanel/>}/>
+
+                                <Route path="categories/">
+                                    <Route path="create" element={<CategoryCreate/>}/>
+                                    <Route path="edit/:id" element={<CategoryEdit/>}/>
+                                </Route>
+
+                                <Route path="products/">
+                                    <Route path="create" element={<ProductCreate/>}/>
+                                    <Route path="edit/:productId" element={<ProductEdit/>}/>
+                                </Route>
+
+                            </Route>
                         </Route>
                     </Route>
 
@@ -74,6 +93,9 @@ const App : React.FC = () => {
                         <Route path="login" element={<Login/>}/>
                         <Route path="register" element={<Registration/>}/>
                     </Route>
+
+
+
 
                     <Route path="*" element={<NotFound/>}/>
                 </Route>

@@ -30,3 +30,17 @@ export interface IOrderData {
     departmentData : IOrderDelivery,
     paymentData: IOrderPayment
 }
+
+export interface IOrderViewModel{
+    customerName: string;
+    customerPhone: string;
+    postAddress : string;
+    orderStatus : string;
+    products : string[];
+}
+
+export interface IOrderTopSold{
+    id: number;
+    name: string;
+    count : number;
+}

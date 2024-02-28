@@ -5,8 +5,62 @@ import {TopHeader} from 'components';
 import Sider from 'antd/es/layout/Sider';
 import {AppstoreAddOutlined, AppstoreOutlined, BuildOutlined, HomeOutlined} from '@ant-design/icons';
 import Basket from 'components/Basket';
+import {useAppSelector} from 'hooks/redux';
+import {Role} from 'utils/enums';
 
-const items: MenuProps['items'] = [
+const {Footer, Content } = Layout;
+
+const userItems: MenuProps['items'] = [
+    {
+        key: '/',
+        icon: <HomeOutlined />,
+        label: (
+            <NavLink to="/" style={{ color: 'inherit', textDecoration: 'none' }}>
+                Home
+            </NavLink>
+        ),
+    },
+    {
+        key: '/categories/',
+        icon: <AppstoreOutlined/>,
+        label: 'Categories',
+        children: [
+            {
+                key: '/categories',
+                icon: <BuildOutlined/>,
+                label: (
+                    <NavLink
+                        to="/categories"
+                        style={{color: 'inherit', textDecoration: 'none'}}
+                    >
+                        All categories
+                    </NavLink>
+                ),
+            },
+        ],
+    },
+    {
+        key: '/products/',
+        icon: <AppstoreOutlined/>,
+        label: 'Products',
+        children: [
+            {
+                key: '/products',
+                icon: <AppstoreAddOutlined/>,
+                label: (
+                    <NavLink
+                        to="/products"
+                        style={{color: 'inherit', textDecoration: 'none'}}
+                    >
+                        All product
+                    </NavLink>
+                ),
+            },
+        ],
+    },
+];
+
+const adminItems: MenuProps['items'] = [
     {
         key: '/',
         icon: <HomeOutlined />,
@@ -38,7 +92,7 @@ const items: MenuProps['items'] = [
                 icon: <AppstoreAddOutlined/>,
                 label: (
                     <NavLink
-                        to="/categories/create"
+                        to="admin/categories/create"
                         style={{color: 'inherit', textDecoration: 'none'}}
                     >
                         Create category
@@ -57,7 +111,7 @@ const items: MenuProps['items'] = [
                 icon: <AppstoreAddOutlined/>,
                 label: (
                     <NavLink
-                        to="/product"
+                        to="/products"
                         style={{color: 'inherit', textDecoration: 'none'}}
                     >
                         All product
@@ -65,11 +119,11 @@ const items: MenuProps['items'] = [
                 ),
             },
             {
-                key: '/product/create',
+                key: '/products/create',
                 icon: <AppstoreAddOutlined/>,
                 label: (
                     <NavLink
-                        to="/product/create"
+                        to="admin/products/create"
                         style={{color: 'inherit', textDecoration: 'none'}}
                     >
                         Create product
@@ -80,12 +134,11 @@ const items: MenuProps['items'] = [
     },
 ];
 
-
 const SiteLayout : React.FC = () => {
-    const {Footer, Content } = Layout;
     const [themeMode, setThemeMode] = useState<boolean>(true);
-    const location = useLocation();
     const [collapsed, setCollapsed] = useState<boolean>(false);
+    const { user} = useAppSelector(state => state.account);
+    const location = useLocation();
 
     return (
         <ConfigProvider theme={{algorithm: themeMode ? theme.defaultAlgorithm : theme.darkAlgorithm}}>
@@ -98,7 +151,7 @@ const SiteLayout : React.FC = () => {
                         theme="dark"
                         mode="inline"
                         defaultSelectedKeys={['/']}
-                        items={items}
+                        items={user?.role === Role.ADMIN ? adminItems : userItems}
                     />
                 </Sider>
 

@@ -4,6 +4,7 @@ export interface IUser{
     name: string,
     email: string,
     image: string,
+    role: string,
 }
 export interface ILogin {
     username: string,

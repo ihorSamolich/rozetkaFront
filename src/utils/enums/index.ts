@@ -4,3 +4,9 @@ export enum Status {
     SUCCESS = 'completed',
     ERROR = 'error',
 }
+
+
+export enum Role {
+    ADMIN = 'Admin',
+    USER = 'User',
+}

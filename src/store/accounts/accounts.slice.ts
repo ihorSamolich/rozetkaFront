@@ -9,18 +9,6 @@ import {addLocalStorage, deleteLocalStorage} from 'utils/storage/localStorageUti
 function isRejectedAction(action: AnyAction): action is RejectedAction {
     return action.type.endsWith('/rejected');
 }
-const updateUserState = (state: IAccountState, token: string): void => {
-    const { name, email, image } = jwtDecode<IUser>(token);
-    state.user = {
-        name,
-        email,
-        image,
-    };
-    state.token = token;
-    state.isLogin = true;
-
-    addLocalStorage('authToken', token);
-};
 
 const initialState: IAccountState = {
     user: null,
@@ -29,12 +17,31 @@ const initialState: IAccountState = {
     status: Status.IDLE,
 };
 
+const updateUserState = (state: IAccountState, token: string): void => {
+    const { name, email, image, role } = jwtDecode<IUser>(token);
+    state.user = {
+        name,
+        email,
+        image,
+        role,
+    };
+    state.token = token;
+    state.isLogin = true;
+
+    addLocalStorage('authToken', token);
+};
+
+
 export const accountsSlice = createSlice({
     name: 'account',
     initialState,
     reducers: {
         autoLogin: (state, action: PayloadAction<string>) => {
             updateUserState(state, action.payload);
+
+            console.log('accountsSlice -> autoLogin');
+            console.log(state.user);
+
         },
         logout: (state) => {
             deleteLocalStorage('authToken');
