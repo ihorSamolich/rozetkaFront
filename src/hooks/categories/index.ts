@@ -24,6 +24,12 @@ const fetchCategoriesNames = async ()=> {
     return response.data as ICategoryName[];
 };
 
+const fetchCategoriesCount = async ()=> {
+    const response
+        = await apiClient.get('/api/categories/count');
+    return response.data as {count: number};
+};
+
 const fetchCategoryById = async (categoryId : number): Promise<ICategoryItem> => {
     const response = await apiClient.get<ICategoryItem>(`/api/categories/${categoryId}`);
     return response.data as ICategoryItem;
@@ -71,6 +77,16 @@ export const useCategoriesNamesData = () => {
     return  useQuery<ICategoryName[], Error>(
         'getCategoriesNames',
         fetchCategoriesNames,
+        {
+            staleTime: 30000,
+        },
+    );
+};
+
+export const useCategoriesCount = () => {
+    return  useQuery<{count: number}, Error>(
+        'getCategoriesCount',
+        fetchCategoriesCount,
         {
             staleTime: 30000,
         },

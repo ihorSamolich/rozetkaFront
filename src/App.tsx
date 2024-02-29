@@ -24,6 +24,7 @@ import {getLocalStorage} from 'utils/storage/localStorageUtils.ts';
 import ProductsAll from 'views/ProductsAll';
 import AdminPanel from 'views/AdminPanel';
 import AdminAuth from 'components/AdminAuth';
+import UserOrders from 'views/UserOrders';
 
 const queryClient = new QueryClient();
 
@@ -65,6 +66,7 @@ const App : React.FC = () => {
 
                         <Route path="checkout/">
                             <Route path="order" element={<CreateOrder/>}/>
+                            <Route path="my-orders" element={<UserOrders/>}/>
                         </Route>
 
                         // ADMIN PANEL ADD CHECK ***

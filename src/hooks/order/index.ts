@@ -27,6 +27,21 @@ const fetchTopSoldCategories = async ()=> {
     return response.data as IOrderTopSold[];
 };
 
+const fetchOrdersCount = async ()=> {
+    const response
+        = await apiClient.get('/api/order/count');
+    return response.data as {count: number};
+};
+export const useOrdersCount = () => {
+    return  useQuery<{count: number}, Error>(
+        'getOrdersCount',
+        fetchOrdersCount,
+        {
+            staleTime: 30000,
+        },
+    );
+};
+
 export const useAddOrderData = () => {
     return useMutation(addOrder);
 };

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {PRIMARY_BLUE_COLOR} from 'utils/constants/index.ts';
-import {Avatar, Button, Switch} from 'antd';
+import {Avatar, Button, Flex, Switch} from 'antd';
 import {MenuFoldOutlined, MenuUnfoldOutlined,UserOutlined,SettingOutlined, PoweroffOutlined} from '@ant-design/icons';
 import {Header} from 'antd/es/layout/layout';
 import {ITopHeader} from 'interfaces/design';
@@ -68,41 +68,48 @@ const TopHeader: React.FC<ITopHeader> = (props) => {
                 }}
             />
 
-            {isLogin ? (
-                <ButtonGroup size="large">
-                    <Button
-                        type="primary"
-                        style={{display: 'flex'}}
-                        icon={<Avatar  size="small" src={`${APP_ENV.BASE_URL}images/${user?.image}`}/>}
-                    >
-                        {user?.name}
-                    </Button>
-                    <Button
-                        type="primary"
-                        icon={<PoweroffOutlined/>}
-                        onClick={() => handleLogout()}
-                    />
-                </ButtonGroup>
+            <Flex gap={10} align={'center'}>
+                {isLogin ? (
+                    <ButtonGroup size="large">
 
-            ) : (
-                <Link to="/account/login" style={{color: 'inherit', textDecoration: 'none'}}>
-                    <Button type="primary" icon={<UserOutlined/>}>
-                        Увійти
-                    </Button>
-                </Link>
-            )}
+                        <Button
+                            type="primary"
+                            style={{display: 'flex'}}
+                            icon={<Avatar  size="small" src={`${APP_ENV.BASE_URL}images/${user?.image}`}/>}
+                        >
+                            <Link style={{height: '100%' , width: '100%'}} to={'/checkout/my-orders'}>
+                                {user?.name}
+                            </Link>
+                        </Button>
+                        <Button
+                            type="primary"
+                            icon={<PoweroffOutlined/>}
+                            onClick={() => handleLogout()}
+                        />
+                    </ButtonGroup>
 
-
-            {
-                user?.role === Role.ADMIN && (
-                    <Link to="/admin">
-                        <Button type="primary" size={'large'} icon={<SettingOutlined />}>
-                            Admin Panel
+                ) : (
+                    <Link to="/account/login" style={{color: 'inherit', textDecoration: 'none'}}>
+                        <Button type="primary" icon={<UserOutlined/>}>
+                            Увійти
                         </Button>
                     </Link>
+                )}
 
-                )
-            }
+
+                {
+                    user?.role === Role.ADMIN && (
+                        <Link to="/admin">
+                            <Button type="primary" style={{backgroundColor:'#29ab35'}} size={'large'} icon={<SettingOutlined />}>
+                                Open Admin Panel
+                            </Button>
+                        </Link>
+
+                    )
+                }
+            </Flex>
+
+
 
             <Switch
                 style={{marginRight: 24}}

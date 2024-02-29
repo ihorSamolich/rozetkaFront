@@ -1,14 +1,16 @@
 import React from 'react';
-import { ArrowDownOutlined, ArrowUpOutlined ,InfoCircleOutlined} from '@ant-design/icons';
-import { Card,Typography, Col, Row, Statistic } from 'antd';
+import { CheckSquareOutlined, ArrowUpOutlined ,InfoCircleOutlined, RiseOutlined} from '@ant-design/icons';
+import {Card, Typography, Col, Row, Statistic, Divider} from 'antd';
 import {Column} from '@ant-design/charts';
 const { Title } = Typography;
-
-import { Table, Tag } from 'antd';
-import {useOrders, useOrdersTopSoldCategories, useOrdersTopSoldProducts} from 'hooks/order';
+import {useOrders, useOrdersCount, useOrdersTopSoldCategories, useOrdersTopSoldProducts} from 'hooks/order';
 import {IOrderTopSold} from 'interfaces/order';
+import {useCategoriesCount} from 'hooks/categories';
+import {useProductsCount} from 'hooks/products';
+import {useAccountsCount} from 'hooks/users';
+import OrdersTable from 'components/OrdersTable';
 
-interface DataType {
+export interface DataType {
     key: React.Key;
     name: string;
     phone: string;
@@ -21,8 +23,10 @@ const AdminPanel : React.FC = () => {
     const {data : dataOrders} = useOrders();
     const {data : topProducts} =  useOrdersTopSoldProducts();
     const {data : topCategories} =  useOrdersTopSoldCategories();
-
-
+    const {data : categoriesCount} =  useCategoriesCount();
+    const {data : productsCount} =  useProductsCount();
+    const {data : ordersCount} =  useOrdersCount();
+    const {data :accountsCount} =  useAccountsCount();
 
     const getOrders = (): DataType[] | undefined => {
         return dataOrders?.map((order, index) => ({
@@ -35,7 +39,6 @@ const AdminPanel : React.FC = () => {
         }));
     };
 
-
     const getTopSalesConfig = (items: IOrderTopSold[] | undefined) => {
         return {
             data: items || [],
@@ -45,10 +48,9 @@ const AdminPanel : React.FC = () => {
         };
     };
 
-
-
     return (
         <>
+            <Divider orientation="left">ПАНЕЛЬ АДМІНІСТРАТОРА</Divider>
             <Row gutter={16} style={{backgroundColor: '#04dbff', padding: 20 , margin: 20, borderRadius: 20} }>
                 <Title level={3}>
                     <InfoCircleOutlined />
@@ -59,8 +61,8 @@ const AdminPanel : React.FC = () => {
                     <Col span={6}>
                         <Card bordered={false}>
                             <Statistic
-                                title="Товарів"
-                                value={1}
+                                title="Категорій"
+                                value={categoriesCount?.count}
                                 valueStyle={{ color: '#3f8600' }}
                                 prefix={<ArrowUpOutlined />}
                             />
@@ -69,8 +71,8 @@ const AdminPanel : React.FC = () => {
                     <Col span={6}>
                         <Card bordered={false}>
                             <Statistic
-                                title="Категорій"
-                                value={9.3}
+                                title="Товарів"
+                                value={productsCount?.count}
                                 valueStyle={{ color: '#0033ff' }}
                                 prefix={<ArrowUpOutlined />}
                             />
@@ -79,24 +81,20 @@ const AdminPanel : React.FC = () => {
                     <Col span={6}>
                         <Card bordered={false}>
                             <Statistic
-                                title="Idle"
-                                value={9.3}
-                                precision={2}
+                                title="Замовлень"
+                                value={ordersCount?.count}
                                 valueStyle={{ color: '#cf1322' }}
-                                prefix={<ArrowDownOutlined />}
-                                suffix="%"
+                                prefix={<ArrowUpOutlined />}
                             />
                         </Card>
                     </Col>
                     <Col span={6}>
                         <Card bordered={false}>
                             <Statistic
-                                title="Idle"
-                                value={9.3}
-                                precision={2}
+                                title="Зареєстрованих користувачів"
+                                value={accountsCount?.count}
                                 valueStyle={{ color: '#cf1322' }}
-                                prefix={<ArrowDownOutlined />}
-                                suffix="%"
+                                prefix={<CheckSquareOutlined />}
                             />
                         </Card>
                     </Col>
@@ -106,53 +104,32 @@ const AdminPanel : React.FC = () => {
 
             <Row gutter={16} style={{backgroundColor: '#89e8e8', padding: 20 , margin: 20, borderRadius: 20} }>
                 <Title level={3}>
-                    <InfoCircleOutlined />
-                    <span style={{margin: 10}}>Cтатистика топ продажів за товарами та категоріями:</span>
+                    <RiseOutlined />
+                    <span style={{margin: 10}}>Cтатистика топ продажів за товарами:</span>
                 </Title>
 
                 <Row gutter={16} style={{width: '100%'}} >
                     <Col span={24}>
                         <Column  {...getTopSalesConfig(topProducts)} />
                     </Col>
+
+                </Row>
+            </Row>
+
+            <Row gutter={16} style={{backgroundColor: '#00ffa6', padding: 20 , margin: 20, borderRadius: 20} }>
+                <Title level={3}>
+                    <RiseOutlined />
+                    <span style={{margin: 10}}>Cтатистика топ продажів за категоріями:</span>
+                </Title>
+
+                <Row gutter={16} style={{width: '100%'}} >
                     <Col span={24}>
                         <Column  {...getTopSalesConfig(topCategories)} />
                     </Col>
                 </Row>
             </Row>
 
-            <Row gutter={16} style={{backgroundColor: '#04dbff', padding: 20 , margin: 20, borderRadius: 20} }>
-                <Title level={3}>
-                    <InfoCircleOutlined />
-                    <span style={{margin: 10}}>Останні замовлення:</span>
-                </Title>
-                <Row gutter={16} style={{width: '100%'}}>
-
-                    <Table  style={{width: '100%'}} dataSource={getOrders()} pagination={false}>
-
-                        <Table.Column title="№" dataIndex="key" key="key" />
-                        <Table.Column title="Name" dataIndex="name" key="name" />
-                        <Table.Column title="Phone" dataIndex="phone" key="phone" />
-                        <Table.Column title="Status" dataIndex="status" key="status" />
-                        <Table.Column title="Address" dataIndex="address" key="address" />
-
-                        <Table.Column
-                            width={'35%'}
-                            title="Products"
-                            dataIndex="products"
-                            key="products"
-                            render={(products: string[]) => (
-                                <>
-                                    {products.map((product, index) => (
-                                        <Tag color={index % 2 ? 'blue' : 'green'} key={index}>
-                                            {product}
-                                        </Tag>
-                                    ))}
-                                </>
-                            )}
-                        />
-                    </Table>
-                </Row>
-            </Row>
+            <OrdersTable data={getOrders()}></OrdersTable>
         </>
     );
 };
