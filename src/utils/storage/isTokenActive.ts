@@ -4,7 +4,12 @@ export const isTokenActive = (token : string | null) => {
     }
 
     try {
+
+        console.log(token);
+
         const tokenData = JSON.parse(atob(token.split('.')[1]));
+
+        console.log('tokenData');
 
         if (tokenData.exp) {
             const expirationTime = tokenData.exp * 1000;
