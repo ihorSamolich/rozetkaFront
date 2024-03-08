@@ -8,11 +8,14 @@ import {getLocalStorage} from 'utils/storage/localStorageUtils.ts';
 
 const AdminAuth : React.FC = () => {
     const { user} = useAppSelector((state)=>state.account);
-    const { role } = jwtDecode<IUser>(getLocalStorage('authToken') as string);
+    const { roles } = jwtDecode<IUser>(getLocalStorage('authToken') as string);
     const location = useLocation();
 
+    const isAdmin = (user?.roles === Role.ADMIN || (user?.roles && user.roles.includes(Role.ADMIN))
+        || roles === Role.ADMIN || (roles && roles.includes(Role.ADMIN)) );
+
     return (
-        (role || user?.role) === Role.ADMIN
+        isAdmin
             ? <Outlet />
             : <Navigate to="/notfound" state={{ from: location }} replace />
     );

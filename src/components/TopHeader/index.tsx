@@ -98,15 +98,15 @@ const TopHeader: React.FC<ITopHeader> = (props) => {
 
 
                 {
-                    user?.role === Role.ADMIN && (
+                    (user?.roles === Role.ADMIN || (user?.roles && user.roles.includes(Role.ADMIN))) && (
                         <Link to="/admin">
-                            <Button type="primary" style={{backgroundColor:'#29ab35'}} size={'large'} icon={<SettingOutlined />}>
+                            <Button type="primary" style={{ backgroundColor: '#29ab35' }} size="large" icon={<SettingOutlined />}>
                                 Open Admin Panel
                             </Button>
                         </Link>
-
                     )
                 }
+
             </Flex>
 
 

@@ -151,7 +151,7 @@ const SiteLayout : React.FC = () => {
                         theme="dark"
                         mode="inline"
                         defaultSelectedKeys={['/']}
-                        items={user?.role === Role.ADMIN ? adminItems : userItems}
+                        items={user?.roles === Role.ADMIN || (user?.roles && user.roles.includes(Role.ADMIN)) ? adminItems : userItems}
                     />
                 </Sider>
 

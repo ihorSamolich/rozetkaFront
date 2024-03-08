@@ -18,12 +18,12 @@ const initialState: IAccountState = {
 };
 
 const updateUserState = (state: IAccountState, token: string): void => {
-    const { name, email, image, role } = jwtDecode<IUser>(token);
+    const { name, email, image, roles } = jwtDecode<IUser>(token);
     state.user = {
         name,
         email,
         image,
-        role,
+        roles,
     };
     state.token = token;
     state.isLogin = true;
@@ -38,10 +38,6 @@ export const accountsSlice = createSlice({
     reducers: {
         autoLogin: (state, action: PayloadAction<string>) => {
             updateUserState(state, action.payload);
-
-            console.log('accountsSlice -> autoLogin');
-            console.log(state.user);
-
         },
         logout: (state) => {
             deleteLocalStorage('authToken');
